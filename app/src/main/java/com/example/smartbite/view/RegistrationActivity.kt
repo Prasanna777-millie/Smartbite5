@@ -1,4 +1,4 @@
-package com.example.smartbite
+ package com.example.smartbite
 
 import android.content.Intent
 import android.os.Bundle
