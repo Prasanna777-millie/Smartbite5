@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SmartBite">
+        <activity
+            android:name=".view.AdminDashboardActivity"
+            android:exported="true"
+            android:label="@string/title_activity_admin_dashboard"
+            android:theme="@style/Theme.SmartBite">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- ✅ Only ONE Launcher Activity -->
+        <activity
+            android:name=".view.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SmartBite">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- Other Activities (NO intent-filter needed) -->
+        <activity
+            android:name=".view.LoginActivity"
+            android:exported="true"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.SmartBite" />
+        <activity
+            android:name=".view.RegistrationActivity"
+            android:exported="false"
+            android:label="@string/title_activity_registration"
+            android:theme="@style/Theme.SmartBite" />
+        <activity
+            android:name=".view.ForgotPasswordActivity"
+            android:exported="false"
+            android:label="@string/title_activity_forgot_password"
+            android:theme="@style/Theme.SmartBite" />
+        <activity
+            android:name=".view.UserDashboardActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SmartBite" />
+        <activity
+            android:name=".view.AddActivity"
+            android:exported="false"
+            android:label="@string/title_activity_add"
+            android:theme="@style/Theme.SmartBite" />
+    </application>
+
+</manifest>
