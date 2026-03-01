@@ -1,4 +1,4 @@
- package com.example.smartbite
+package com.example.smartbite.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,6 +16,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.smartbite.R
 import com.example.smartbite.model.UserModel
 import com.example.smartbite.repository.UserRepoImpl
 import com.example.smartbite.viewmodel.UserViewModel
@@ -86,7 +88,7 @@ fun RegistrationBody() {
         Spacer(modifier = Modifier.height(20.dp))
 
         Image(
-            painter = painterResource(id = R.drawable.coffee),
+            painter = painterResource(id = R.drawable.logoofcafe),
             contentDescription = null,
             modifier = Modifier
                 .height(150.dp)
@@ -106,10 +108,23 @@ fun RegistrationBody() {
 
         Spacer(modifier = Modifier.height(26.dp))
 
-        CafeInput("Full Name", fullName, onValueChange = { fullName = it }, borderColor = Mocha)
+        CafeInput(
+            "Full Name",
+            fullName,
+            onValueChange = { fullName = it },
+            borderColor = Mocha,
+            testTag = "fullName"
+        )
         Spacer(modifier = Modifier.height(14.dp))
 
-        CafeInput("Email Address", email, keyboardType = KeyboardType.Email, onValueChange = { email = it }, borderColor = Mocha)
+        CafeInput(
+            "Email Address",
+            email,
+            keyboardType = KeyboardType.Email,
+            onValueChange = { email = it },
+            borderColor = Mocha,
+            testTag = "email"
+        )
         Spacer(modifier = Modifier.height(14.dp))
 
         CafePassword(
@@ -118,7 +133,8 @@ fun RegistrationBody() {
             visible = passwordVisibility,
             onToggle = { passwordVisibility = !passwordVisibility },
             onValueChange = { password = it },
-            borderColor = Mocha
+            borderColor = Mocha,
+            testTag = "password"
         )
         Spacer(modifier = Modifier.height(14.dp))
 
@@ -128,7 +144,8 @@ fun RegistrationBody() {
             visible = confirmPasswordVisibility,
             onToggle = { confirmPasswordVisibility = !confirmPasswordVisibility },
             onValueChange = { confirmPassword = it },
-            borderColor = Mocha
+            borderColor = Mocha,
+            testTag = "confirmPassword"
         )
 
         Spacer(modifier = Modifier.height(30.dp))
@@ -155,9 +172,9 @@ fun RegistrationBody() {
                         userViewModel.addUserToDatabase(userId, user) { dbSuccess, dbMessage ->
                             Toast.makeText(context, dbMessage, Toast.LENGTH_SHORT).show()
                             if (dbSuccess) {
-                                context.startActivity(
-                                    Intent(context, LoginActivity::class.java)
-                                )
+                                val intent = Intent(context, LoginActivity::class.java)
+                                context.startActivity(intent)
+                                (context as? ComponentActivity)?.finish()
                             }
                         }
                     } else {
@@ -167,7 +184,8 @@ fun RegistrationBody() {
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(54.dp),
+                .height(54.dp)
+                .testTag("register"),
             shape = RoundedCornerShape(28.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Caramel)
         ) {
@@ -199,7 +217,8 @@ fun CafeInput(
     value: String,
     keyboardType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
-    borderColor: Color
+    borderColor: Color,
+    testTag: String = ""
 ) {
     OutlinedTextField(
         value = value,
@@ -207,7 +226,9 @@ fun CafeInput(
         label = { Text(label, color = borderColor) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag(testTag),
         shape = RoundedCornerShape(12.dp),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,
@@ -227,7 +248,8 @@ fun CafePassword(
     visible: Boolean,
     onToggle: () -> Unit,
     onValueChange: (String) -> Unit,
-    borderColor: Color
+    borderColor: Color,
+    testTag: String = ""
 ) {
     OutlinedTextField(
         value = value,
@@ -245,7 +267,9 @@ fun CafePassword(
             }
         },
         singleLine = true,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag(testTag),
         shape = RoundedCornerShape(12.dp),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,

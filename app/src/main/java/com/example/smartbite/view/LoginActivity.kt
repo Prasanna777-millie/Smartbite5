@@ -1,4 +1,4 @@
-package com.example.smartbite
+package com.example.smartbite.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,6 +15,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -25,7 +26,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.smartbite.R
 import com.example.smartbite.repository.UserRepoImpl
+import com.example.smartbite.view.UserDashboardActivity
 import com.example.smartbite.viewmodel.UserViewModel
 
 class LoginActivity : ComponentActivity() {
@@ -72,7 +75,7 @@ fun LoginBody() {
         Spacer(modifier = Modifier.height(20.dp))
 
         Image(
-            painter = painterResource(R.drawable.logo),
+            painter = painterResource(R.drawable.logoofcafe),
             contentDescription = null,
             modifier = Modifier
                 .height(200.dp)
@@ -99,7 +102,8 @@ fun LoginBody() {
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 15.dp),
+                .padding(horizontal = 15.dp)
+                .testTag("email"),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Cream,
                 unfocusedContainerColor = Cream,
@@ -120,7 +124,8 @@ fun LoginBody() {
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 15.dp),
+                .padding(horizontal = 15.dp)
+                .testTag("password"),
             visualTransformation = if (visibility) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
                 IconButton(onClick = { visibility = !visibility }) {
@@ -171,9 +176,17 @@ fun LoginBody() {
                 userViewModel.login(email.trim(), password.trim()) { success, msg ->
                     if (success) {
                         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                        context.startActivity(
-                            Intent(context, DashboardActivity::class.java)
-                        )
+                        
+                        // Check if admin
+                        val isAdmin = email.trim().equals("adminsmartbite@gmail.com", ignoreCase = true)
+                        
+                        val intent = if (isAdmin) {
+                            Intent(context, AdminDashboardActivity::class.java)
+                        } else {
+                            Intent(context, UserDashboardActivity::class.java)
+                        }
+                        
+                        context.startActivity(intent)
                         (context as? ComponentActivity)?.finish()
                     } else {
                         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
@@ -182,7 +195,8 @@ fun LoginBody() {
             },
             modifier = Modifier
                 .width(300.dp)
-                .height(54.dp),
+                .height(54.dp)
+                .testTag("login"),
             shape = RoundedCornerShape(28.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Caramel)
         ) {

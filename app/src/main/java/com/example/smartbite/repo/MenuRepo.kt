@@ -1,5 +1,4 @@
-package com.example.smartbite.Repository
-
+package com.example.smartbite.repo
 
 import com.example.smartbite.model.MenuItemModel
 
@@ -14,4 +13,7 @@ interface MenuRepo {
     fun updateMenu(menu: MenuItemModel, callback: (Boolean, String) -> Unit)
 
     fun deleteMenu(menuId: String, callback: (Boolean, String) -> Unit)
+
+
+    fun updateMenuAvailability(menuId: String, status: Boolean, callback: (Boolean, String) -> Unit)
 }

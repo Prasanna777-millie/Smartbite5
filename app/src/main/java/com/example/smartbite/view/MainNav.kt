@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.smartbite.ui.view.ProfileScreen
 
 @Composable
 fun MainNav(
     isDarkMode: Boolean,
-    onThemeChange: (Boolean) -> Unit
+    onThemeChange: (Boolean) -> Unit,
+    currentUserId: String
 ) {
     val navController = rememberNavController()
 
@@ -19,7 +19,7 @@ fun MainNav(
     ) {
 
         composable("home") {
-            HomeScreen(navController)
+            Homescreen(navController)
         }
 
         composable("details/{itemId}") { backStackEntry ->
@@ -28,7 +28,10 @@ fun MainNav(
         }
 
         composable("notifications") {
-            NotificationScreen()
+            NotificationScreen(
+                navController = navController,
+                currentUserId = currentUserId
+            )
         }
 
         composable("cart") {
@@ -36,16 +39,15 @@ fun MainNav(
         }
 
         composable("profile") {
-            ProfileScreen(
+            ProfileScreenNew(
                 isDarkMode = isDarkMode,
                 onThemeChange = onThemeChange,
-
                 onBack = { navController.popBackStack() },
-                onEditProfile = { /* navController.navigate("editProfile") */ },
-                onMyOrders = { /* navController.navigate("myOrders") */ },
-                onPaymentHistory = { /* navController.navigate("paymentHistory") */ },
-                onHelpSupport = { /* navController.navigate("help") */ },
-                onLogout = { /* navController.navigate("login") */ }
+                onEditProfile = { },
+                onMyOrders = { },
+                onPaymentHistory = { },
+                onHelpSupport = { },
+                onLogout = { }
             )
         }
     }

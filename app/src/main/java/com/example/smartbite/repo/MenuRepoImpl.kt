@@ -1,12 +1,7 @@
-package com.example.smartbite.Repository
+package com.example.smartbite.repo
 
-import com.example.smartbite.data.MenuItem
 import com.example.smartbite.model.MenuItemModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 class MenuRepoImpl : MenuRepo {
 
@@ -51,7 +46,7 @@ class MenuRepoImpl : MenuRepo {
     }
 
     override fun getAllMenus(callback: (Boolean, String, List<MenuItemModel>) -> Unit) {
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+        ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val menuList = mutableListOf<MenuItemModel>()
                 for (child in snapshot.children) {
@@ -92,6 +87,24 @@ class MenuRepoImpl : MenuRepo {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) callback(true, "Menu deleted")
                 else callback(false, task.exception?.message ?: "Delete failed")
+            }
+    }
+
+    override fun updateMenuAvailability(
+        menuId: String,
+        status: Boolean,
+        callback: (Boolean, String) -> Unit
+    ) {
+        if (menuId.isEmpty()) {
+            callback(false, "Menu ID is missing")
+            return
+        }
+
+        ref.child(menuId)
+            .updateChildren(mapOf("isAvailable" to status))
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) callback(true, "Successfully updated")
+                else callback(false, task.exception?.message ?: "Failed to update")
             }
     }
 }

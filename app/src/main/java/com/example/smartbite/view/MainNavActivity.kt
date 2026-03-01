@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.example.smartbite.ui.theme.SmartBiteTheme
+import com.google.firebase.auth.FirebaseAuth
 
 class MainNavActivity : ComponentActivity() {
 
@@ -18,8 +19,10 @@ class MainNavActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            // Theme state
+
             var isDarkMode by remember { mutableStateOf(false) }
+
+            val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
             SmartBiteTheme(darkTheme = isDarkMode) {
                 Surface(
@@ -28,7 +31,8 @@ class MainNavActivity : ComponentActivity() {
                 ) {
                     MainNav(
                         isDarkMode = isDarkMode,
-                        onThemeChange = { newMode -> isDarkMode = newMode }
+                        onThemeChange = { newMode -> isDarkMode = newMode },
+                        currentUserId = currentUserId
                     )
                 }
             }

@@ -1,4 +1,4 @@
-package com.example.smartbite.ui.view
+package com.example.smartbite.view
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -167,13 +167,7 @@ fun ProfileScreenNew(
                     }
 
                     FilledTonalButton(
-                        onClick = {
-                            if (userId.isEmpty()) {
-                                Toast.makeText(context, "Please login first", Toast.LENGTH_SHORT).show()
-                            } else {
-                                onEditProfile()
-                            }
-                        },
+                        onClick = { onEditProfile() },
                         colors = ButtonDefaults.filledTonalButtonColors(
                             containerColor = Color.White.copy(alpha = 0.18f),
                             contentColor = Color.White
@@ -233,25 +227,7 @@ fun ProfileScreenNew(
             }
         }
 
-        // ---------------- LOGOUT BUTTON ----------------
-        item { Spacer(Modifier.height(14.dp)) }
 
-        item {
-            OutlinedButton(
-                onClick = {
-                    auth.signOut()
-                    onLogout()
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = MaterialTheme.colorScheme.error
-                )
-            ) {
-                Text("Logout")
-            }
-        }
     }
 }
 

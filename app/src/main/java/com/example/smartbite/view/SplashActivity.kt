@@ -42,8 +42,8 @@ fun SmartBiteSplash() {
     val activity = context as Activity
 
     // ☕ Café Palette
-    val Espresso = Color(0xFF1B0F0A)
-    val Caramel = Color(0xFFB08968)
+    val Espresso = Color(0xFF3E2723)
+    val Caramel = Color(0xFFD7A86E)
     val Cream = Color(0xFFFFF3E0)
 
     LaunchedEffect(Unit) {
@@ -58,14 +58,14 @@ fun SmartBiteSplash() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .background(Espresso),
+                .background(Cream),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
 
             // 🖼 Logo (replace with your logo)
             Image(
-                painter = painterResource(R.drawable.smartlogo),
+                painter = painterResource(R.drawable.logoofcafe),
                 contentDescription = "SmartBite Logo",
                 modifier = Modifier.size(90.dp)
             )
@@ -76,7 +76,7 @@ fun SmartBiteSplash() {
                 text = "SMARTBITE",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                color = Caramel,
+                color = Espresso,
                 letterSpacing = 2.sp
             )
 
@@ -85,7 +85,7 @@ fun SmartBiteSplash() {
             Text(
                 text = "Order smart. Eat happy.",
                 fontSize = 13.sp,
-                color = Cream.copy(alpha = 0.85f)
+                color = Espresso.copy(alpha = 0.7f)
             )
 
             Spacer(modifier = Modifier.height(50.dp))
